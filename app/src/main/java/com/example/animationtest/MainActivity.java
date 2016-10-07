@@ -8,7 +8,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button button1,button2,button3;
+    private Button button1,button2,button3,button4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button2.setOnClickListener(this);
         button3 = (Button) findViewById(R.id.btn_3);
         button3.setOnClickListener(this);
+        button4 = (Button) findViewById(R.id.btn_4);
+        button4.setOnClickListener(this);
     }
 
     @Override
@@ -38,6 +40,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_3:
                 Intent intent3 = new Intent(MainActivity.this,DropActivity.class);
                 startActivity(intent3);
+                break;
+
+            case R.id.btn_4:
+                Intent intent4 = new Intent(MainActivity.this,FlikerProgressBarActivity.class);
+                startActivity(intent4);
                 break;
 
             default:
