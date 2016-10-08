@@ -18,7 +18,8 @@
         <activity android:name=".MenuActivity" />
         <activity android:name=".TimerActivity" />
         <activity android:name=".DropActivity" />
-        <activity android:name=".FlikerProgressBarActivity"></activity>
+        <activity android:name=".FlikerProgressBarActivity" />
+        <activity android:name=".PanelActivity"></activity>
     </application>
 
 </manifest>

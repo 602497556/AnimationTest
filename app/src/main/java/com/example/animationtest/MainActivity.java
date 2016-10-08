@@ -51,4 +51,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+    public void btnPanel(View view){
+        startActivity(new Intent(MainActivity.this,PanelActivity.class));
+    }
+
 }
