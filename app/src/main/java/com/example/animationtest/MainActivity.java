@@ -3,17 +3,22 @@ package com.example.animationtest;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private Button button1,button2,button3,button4;
+    private Toolbar mToolBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mToolBar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(mToolBar);
         button1 = (Button) findViewById(R.id.btn_1);
         button1.setOnClickListener(this);
         button2 = (Button) findViewById(R.id.btn_2);
