@@ -5,11 +5,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
 import java.util.Calendar;
+import java.util.IllegalFormatException;
 
 /**
  * Created by Administrator on 2016/10/10.
@@ -37,6 +41,12 @@ public class MyClockView extends SurfaceView implements SurfaceHolder.Callback,R
     private int mHourPointerLength,mMinutePointerLength,mSecondPointerLength;
     //时分秒
     private int mHour,mMinute,mSecond;
+
+    private OnTimeChangeListener onTimeChangeListener;
+
+    public void setOnTimeChangeListener(OnTimeChangeListener listener){
+        this.onTimeChangeListener = listener;
+    }
 
 
     public MyClockView(Context context) {
@@ -149,6 +159,7 @@ public class MyClockView extends SurfaceView implements SurfaceHolder.Callback,R
         long start,end;
         while(mFlag){
             start = System.currentTimeMillis();
+            handler.sendEmptyMessage(0);
             draw();
             logic();
             end = System.currentTimeMillis();
@@ -231,7 +242,11 @@ public class MyClockView extends SurfaceView implements SurfaceHolder.Callback,R
         for(int i=0;i<12;i++){
             String text = (6+i) < 12 ? String.valueOf(6+i):(6+i) > 12 ?
                     String.valueOf(6+i-12): "12";
-            mCanvas.drawText(text,0,radius*5.5f/7,mPointerPaint);
+            mCanvas.save();
+            mCanvas.translate(0,radius*5.5f / 7);
+            mCanvas.rotate(-i*30);
+            mCanvas.drawText(text,0,0,mPointerPaint);
+            mCanvas.restore();
             mCanvas.rotate(30);
         }
         //6,绘制上下午
@@ -287,5 +302,83 @@ public class MyClockView extends SurfaceView implements SurfaceHolder.Callback,R
         return new int[]{-x,y,0,pointerLength,x,y};
     }
 
+    private Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            if(onTimeChangeListener != null){
+                onTimeChangeListener.onTimeChange(MyClockView.this,mHour,mMinute,mSecond);
+            }
+            return false;
+        }
+    });
+
+
+    //--------------Setter and Getter start-------------//
+
+    public int getHour() {
+        return mHour;
+    }
+
+    public void setHour(int hour) {
+        mHour = Math.abs(hour) % 24;
+        if(onTimeChangeListener != null){
+            onTimeChangeListener.onTimeChange(this,mHour,mMinute,mSecond);
+        }
+    }
+
+    public int getMinute() {
+        return mMinute;
+    }
+
+    public void setMinute(int minute) {
+        mMinute = Math.abs(minute) % 60;
+        if(onTimeChangeListener != null){
+            onTimeChangeListener.onTimeChange(this,mHour,mMinute,mSecond);
+        }
+    }
+
+    public int getSecond() {
+        return mSecond;
+    }
+
+    public void setSecond(int second) {
+        mSecond = Math.abs(second) % 60;
+        if(onTimeChangeListener != null){
+            onTimeChangeListener.onTimeChange(this,mHour,mMinute,mSecond);
+        }
+    }
+
+    public void setTime(Integer... time){
+        if(time.length>3){
+            throw new IllegalArgumentException("the length of argument should be less than 3");
+        }
+        if(time.length>2){
+            setSecond(time[2]);
+        }
+        if(time.length>1){
+            setMinute(time[1]);
+        }
+        if(time.length>0){
+            setHour(time[0]);
+        }
+    }
+
+    //--------------Setter and Getter end----------------//
+
+    /**
+     * 当时间改变的时候提供回调的接口
+     */
+    public interface OnTimeChangeListener{
+
+        /**
+         *  时间发生改变时调用
+         *
+         * @param v 时间正在改变的view
+         * @param hour 改变后的小时时刻
+         * @param minute 改变后的分钟时刻
+         * @param second 改变后的秒时刻
+         */
+        void onTimeChange(View v,int hour,int minute,int second);
+    }
 
 }
