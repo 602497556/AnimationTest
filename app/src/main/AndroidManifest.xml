@@ -19,7 +19,8 @@
         <activity android:name=".TimerActivity" />
         <activity android:name=".DropActivity" />
         <activity android:name=".FlikerProgressBarActivity" />
-        <activity android:name=".PanelActivity"></activity>
+        <activity android:name=".PanelActivity" />
+        <activity android:name=".CityActivity"></activity>
     </application>
 
 </manifest>

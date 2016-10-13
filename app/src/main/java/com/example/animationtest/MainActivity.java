@@ -61,4 +61,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         startActivity(new Intent(MainActivity.this,PanelActivity.class));
     }
 
+    public void btnCity(View view){
+        startActivity(new Intent(MainActivity.this,CityActivity.class));
+    }
+
 }

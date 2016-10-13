@@ -43,4 +43,10 @@
         android:text="仪表盘"
         android:onClick="btnPanel"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="悬停头部分组列表"
+        android:onClick="btnCity"/>
+
 </LinearLayout>
