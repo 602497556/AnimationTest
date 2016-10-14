@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="70dp"
     android:orientation="vertical"
-    android:paddingLeft="15dp">
+    android:paddingLeft="15dp"
+    android:background="@drawable/rv_item_bg">
 
     <TextView
         android:id="@+id/tvCity"

@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Toast;
 
 import com.example.animationtest.adapter.CityAdapter;
 import com.example.animationtest.bean.CityBean;
@@ -17,6 +19,7 @@ public class CityActivity extends AppCompatActivity {
 
     private RecyclerView mRV;
     private List<CityBean> mDatas;
+    private CityAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +28,17 @@ public class CityActivity extends AppCompatActivity {
         initData();
         mRV = (RecyclerView) findViewById(R.id.recycler_view);
         mRV.setLayoutManager(new LinearLayoutManager(this));
-        mRV.setAdapter(new CityAdapter(this,mDatas));
-        mRV.addItemDecoration(new DividerItemDecoration(this,
-                DividerItemDecoration.VERTICAL_LIST));
+        adapter = new CityAdapter(this,mDatas);
+        mRV.setAdapter(adapter);
+        mRV.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
         mRV.addItemDecoration(new TitleItemDecoration(this,mDatas));
+        adapter.setOnItemClickListener(new CityAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(CityActivity.this,"you clicked:"+mDatas.get(position).getCity(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initData() {
