@@ -1,68 +1,96 @@
 package com.example.animationtest;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.Window;
-import android.widget.Button;
+import android.view.MenuItem;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity {
 
-    private Button button1,button2,button3,button4;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
     private Toolbar mToolBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mToolBar = (Toolbar) findViewById(R.id.tool_bar);
-        setSupportActionBar(mToolBar);
-        button1 = (Button) findViewById(R.id.btn_1);
-        button1.setOnClickListener(this);
-        button2 = (Button) findViewById(R.id.btn_2);
-        button2.setOnClickListener(this);
-        button3 = (Button) findViewById(R.id.btn_3);
-        button3.setOnClickListener(this);
-        button4 = (Button) findViewById(R.id.btn_4);
-        button4.setOnClickListener(this);
+        initView();
+        navViewToTop();
+        initNavigationView();
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.btn_1:
-                Intent intent1 = new Intent(MainActivity.this,MenuActivity.class);
-                startActivity(intent1);
-                break;
+    private void initNavigationView() {
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.nav_item1:
+                        myStartActivity(MenuActivity.class);
+                        break;
+                    case R.id.nav_item2:
+                        myStartActivity(TimerActivity.class);
+                        break;
+                    case R.id.nav_item3:
+                        myStartActivity(DropActivity.class);
+                        break;
+                    case R.id.nav_item4:
+                        myStartActivity(PanelActivity.class);
+                        break;
+                    case R.id.nav_item5:
+                        myStartActivity(CityActivity.class);
+                        break;
+                    case R.id.nav_item6:
+                        myStartActivity(FlikerProgressBarActivity.class);
+                        break;
+                    default:
+                        break;
+                }
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
+    }
 
-            case R.id.btn_2:
-                Intent intent2 = new Intent(MainActivity.this,TimerActivity.class);
-                startActivity(intent2);
-                break;
+    private void myStartActivity(Class<?> clazz){
+        Intent intent = new Intent(MainActivity.this,clazz);
+        startActivity(intent);
+    }
 
-            case R.id.btn_3:
-                Intent intent3 = new Intent(MainActivity.this,DropActivity.class);
-                startActivity(intent3);
-                break;
 
-            case R.id.btn_4:
-                Intent intent4 = new Intent(MainActivity.this,FlikerProgressBarActivity.class);
-                startActivity(intent4);
-                break;
+    /**
+     * 初始化
+     */
+    private void initView() {
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        mToolBar = (Toolbar) findViewById(R.id.main_tb);
+        setSupportActionBar(mToolBar);
+        setUpDrawer();
+    }
 
-            default:
-                break;
+    private void setUpDrawer() {
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,mToolBar,
+                R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+    }
+
+    /**
+     * 使4.4以下的系统，NavigationView的颜色填充到状态栏
+     */
+    private void navViewToTop() {
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+            drawerLayout.setFitsSystemWindows(true);
+            drawerLayout.setClipToPadding(false);
         }
     }
 
-    public void btnPanel(View view){
-        startActivity(new Intent(MainActivity.this,PanelActivity.class));
-    }
 
-    public void btnCity(View view){
-        startActivity(new Intent(MainActivity.this,CityActivity.class));
-    }
 
 }

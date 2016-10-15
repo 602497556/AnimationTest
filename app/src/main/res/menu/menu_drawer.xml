@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_item1"
+            android:icon="@android:drawable/ic_menu_add"
+            android:title="灵动菜单"/>
+
+        <item
+            android:id="@+id/nav_item2"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="计时器动画"/>
+
+        <item
+            android:id="@+id/nav_item3"
+            android:icon="@android:drawable/ic_menu_always_landscape_portrait"
+            android:title="下拉展开动画"/>
+
+    </group>
+
+    <item android:title="其他">
+
+        <menu>
+            <item
+                android:id="@+id/nav_item4"
+                android:icon="@android:drawable/ic_menu_call"
+                android:title="ClockView"/>
+
+            <item
+                android:id="@+id/nav_item5"
+                android:icon="@android:drawable/ic_menu_compass"
+                android:title="悬停头部分组列表"/>
+
+            <item
+                android:id="@+id/nav_item6"
+                android:icon="@android:drawable/ic_menu_delete"
+                android:title="FlikerProgressBar"/>
+
+        </menu>
+
+    </item>
+
+</menu>
