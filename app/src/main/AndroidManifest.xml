@@ -20,7 +20,8 @@
         <activity android:name=".DropActivity" />
         <activity android:name=".FlikerProgressBarActivity" />
         <activity android:name=".PanelActivity" />
-        <activity android:name=".CityActivity"></activity>
+        <activity android:name=".CityActivity" />
+        <activity android:name=".CoinDropActivity"></activity>
     </application>
 
 </manifest>

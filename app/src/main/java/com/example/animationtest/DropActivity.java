@@ -3,11 +3,16 @@ package com.example.animationtest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import java.io.File;
 
 public class DropActivity extends AppCompatActivity {
 
@@ -68,6 +73,23 @@ public class DropActivity extends AppCompatActivity {
             }
         });
         return animator;
+    }
+
+    public void btnTest(View view){
+        Toast.makeText(this,"Clicked",Toast.LENGTH_SHORT).show();
+        if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED){
+            Log.d("------------->","内存卡存在");
+        }else{
+            Log.d("------------->","内存卡不存在");
+            String path = Environment.getExternalStorageDirectory()+"/zengjie";
+            File file = new File(path);
+            if(!file.exists()){
+                file.mkdir();
+            }
+            Log.d("------------->",Environment.getExternalStorageDirectory().toString());
+            Log.d("------------->",Environment.getExternalStorageDirectory().getAbsolutePath());
+        }
+        Log.d("------------->",getFilesDir().toString());
     }
 
 
