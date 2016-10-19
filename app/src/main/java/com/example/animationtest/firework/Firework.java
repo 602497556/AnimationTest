@@ -102,7 +102,7 @@ public class Firework {
     public void draw(Canvas canvas){
         mPaint.setAlpha((int) (225*animatorValue));
         for(Element element : elements){
-            canvas.drawCircle(location.x + element.x,location.y +element.y,elementSize,mPaint);
+            canvas.drawCircle(location.x + element.x, location.y +element.y, elementSize,mPaint);
         }
     }
 

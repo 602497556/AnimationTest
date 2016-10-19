@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -20,6 +21,8 @@ import java.util.LinkedList;
 
 /**
  * Created by Administrator on 2016/10/18.
+ *
+ * 自定义的FireworkView
  */
 public class FireworkView extends View {
 
@@ -56,6 +59,7 @@ public class FireworkView extends View {
                 * 关于launch的第三个参数，决定风的方向，1为吹向右边，-1为左边。
                  */
                 float[] coordinate = getCursorCoordinate();
+                Log.d("-------------->","coordinate[0]:"+coordinate[0]+",coordinate[1]:"+coordinate[1]);
                 launch(coordinate[0],coordinate[1],i1 ==0 ? -1:1);
             }
 
@@ -67,7 +71,7 @@ public class FireworkView extends View {
     }
 
     private void launch(float x, float y, int direction) {
-        final Firework firework = new Firework(new Firework.Location(x,y),direction);
+        final Firework firework = new Firework(new Firework.Location(x,y), direction);
         firework.addAnimationEndListener(new Firework.AnimationEndListener() {
             @Override
             public void onAnimationEnd() {
@@ -110,15 +114,16 @@ public class FireworkView extends View {
             Drawable[] drawable = (Drawable[]) drawables.get(mEditor);
 
             Method getVerticalOffset = clazz.getDeclaredMethod("getVerticalOffset",boolean.class);
-            Method getCompoundPaddingLeft = clazz.getDeclaredMethod("getCompoundPaddingLeft",boolean.class);
-            Method getExtendedPaddingTop = clazz.getDeclaredMethod("getExtendedPaddingTop",boolean.class);
+            Method getCompoundPaddingLeft = clazz.getDeclaredMethod("getCompoundPaddingLeft");
+            Method getExtendedPaddingTop = clazz.getDeclaredMethod("getExtendedPaddingTop");
             getVerticalOffset.setAccessible(true);
             getCompoundPaddingLeft.setAccessible(true);
             getExtendedPaddingTop.setAccessible(true);
             if(drawable != null){
                 Rect bounds = drawable[0].getBounds();
                 xOffset = (int) getCompoundPaddingLeft.invoke(mEditText) + bounds.left;
-                yOffset = (int) getExtendedPaddingTop.invoke(mEditText) + (int)getVerticalOffset.invoke(mEditText, false)+bounds.bottom;
+                yOffset = (int) getExtendedPaddingTop.invoke(mEditText) +
+                        (int)getVerticalOffset.invoke(mEditText, false)+bounds.bottom;
             }
         } catch (IllegalAccessException e) {
             e.printStackTrace();

@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.example.animationtest.view.FireworkView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +22,18 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     private boolean mFlag = true;
 
+    private EditText mEditText;
+    private FireworkView fireworkView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
+        mEditText = (EditText) findViewById(R.id.et_firework);
+        fireworkView = (FireworkView) findViewById(R.id.fire_work);
+        fireworkView.bindEditText(mEditText);
+
         for(int i=0;i<mRes.length;i++){
             ImageView iv = (ImageView) findViewById(mRes[i]);
             mImageViews.add(iv);
