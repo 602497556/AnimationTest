@@ -17,4 +17,10 @@
         android:text="金钱掉落"
         android:onClick="btnCoinDrop"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="3D ViewPager Gallery"
+        android:onClick="btnGallery"/>
+
 </LinearLayout>

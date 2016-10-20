@@ -21,7 +21,8 @@
         <activity android:name=".FlikerProgressBarActivity" />
         <activity android:name=".PanelActivity" />
         <activity android:name=".CityActivity" />
-        <activity android:name=".CoinDropActivity"></activity>
+        <activity android:name=".CoinDropActivity" />
+        <activity android:name=".VPGalleryActivity"></activity>
     </application>
 
 </manifest>

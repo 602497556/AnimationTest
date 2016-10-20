@@ -92,10 +92,23 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 演示硬币掉入钱包
+     *
+     * @param view
+     */
     public void btnCoinDrop(View view){
         myStartActivity(CoinDropActivity.class);
     }
 
 
+    /**
+     * 演示3D ViewPager
+     *
+     * @param view
+     */
+    public void btnGallery(View view){
+        myStartActivity(VPGalleryActivity.class);
+    }
 
 }
