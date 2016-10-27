@@ -111,4 +111,13 @@ public class MainActivity extends BaseActivity {
         myStartActivity(VPGalleryActivity.class);
     }
 
+    /**
+     * 演示自定义的Camera
+     *
+     * @param view
+     */
+    public void btnCamera(View view){
+        myStartActivity(CameraActivity.class);
+    }
+
 }

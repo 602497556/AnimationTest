@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.animationtest">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <uses-feature android:name="android.hardware.Camera.autofocus"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,7 +27,10 @@
         <activity android:name=".PanelActivity" />
         <activity android:name=".CityActivity" />
         <activity android:name=".CoinDropActivity" />
-        <activity android:name=".VPGalleryActivity"></activity>
+        <activity android:name=".VPGalleryActivity" />
+        <activity android:name=".CameraActivity"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>
