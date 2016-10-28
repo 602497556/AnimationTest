@@ -13,12 +13,12 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.example.animationtest.CameraActivity;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,11 +34,11 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
     private int mScreenHeight;
 
     public CameraSurfaceView(Context context) {
-        super(context);
+        this(context,null);
     }
 
     public CameraSurfaceView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs,0);
     }
 
     public CameraSurfaceView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -138,10 +138,11 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
             BufferedOutputStream bos = null;
             Bitmap bitmap = null;
             try {
+                String photoName = getPhotoFileName();
                 bitmap = BitmapFactory.decodeByteArray(data,0,data.length);
                 if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
                     //照片保存路径
-                    String filePath = "/sdcard/zeng"+System.currentTimeMillis()+".jpeg";
+                    String filePath = "/sdcard/"+photoName;
                     File file = new File(filePath);
                     if(!file.exists()){
                         file.createNewFile();
@@ -167,6 +168,17 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
             }
         }
     };
+
+    /**
+     * 生成照片名
+     *
+     * @return
+     */
+    private String getPhotoFileName() {
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("'IMG'_yyyyMMdd_HHmmss");
+        return dateFormat.format(date)+".jpeg";
+    }
 
     public Camera getmCamera(){
         return mCamera;

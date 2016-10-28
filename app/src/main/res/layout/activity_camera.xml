@@ -5,6 +5,31 @@
 
     <com.example.animationtest.view.CameraSurfaceView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:id="@+id/camera_surface_view"/>
+
+    <com.example.animationtest.view.RectOnCamera
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rect_on_camera"/>
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:id="@+id/btn_take_pic"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:background="#88427ac7"
+            android:text="拍照"
+            android:textColor="#aaa"/>
+        
+    </RelativeLayout>
+
+
 
 </FrameLayout>
