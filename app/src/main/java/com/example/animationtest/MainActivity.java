@@ -120,4 +120,13 @@ public class MainActivity extends BaseActivity {
         myStartActivity(CameraActivity.class);
     }
 
+    /**
+     * 演示LauncherView
+     *
+     * @param view
+     */
+    public void btnLauncherView(View view){
+        myStartActivity(LauncherViewActivity.class);
+    }
+
 }

@@ -29,4 +29,10 @@
         android:text="Camera"
         android:onClick="btnCamera"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Launcher View"
+        android:onClick="btnLauncherView"/>
+
 </LinearLayout>

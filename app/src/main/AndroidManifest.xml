@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.animationtest">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
-    <uses-feature android:name="android.hardware.Camera.autofocus"/>
+    <uses-feature android:name="android.hardware.Camera.autofocus" />
 
     <application
         android:allowBackup="true"
@@ -28,9 +28,10 @@
         <activity android:name=".CityActivity" />
         <activity android:name=".CoinDropActivity" />
         <activity android:name=".VPGalleryActivity" />
-        <activity android:name=".CameraActivity"
-            android:screenOrientation="portrait">
-        </activity>
+        <activity
+            android:name=".CameraActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".LauncherViewActivity"></activity>
     </application>
 
 </manifest>
