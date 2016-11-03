@@ -30,13 +30,14 @@ public class CityActivity extends AppCompatActivity {
         mRV.setLayoutManager(new LinearLayoutManager(this));
         adapter = new CityAdapter(this,mDatas);
         mRV.setAdapter(adapter);
-        mRV.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
-        mRV.addItemDecoration(new TitleItemDecoration(this,mDatas));
+        mRV.addItemDecoration(new DividerItemDecoration(
+                this, DividerItemDecoration.VERTICAL_LIST));
+        mRV.addItemDecoration(new TitleItemDecoration(this, mDatas));
         adapter.setOnItemClickListener(new CityAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(CityActivity.this,"you clicked:"+mDatas.get(position).getCity(),
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(CityActivity.this,"you clicked:"+
+                        mDatas.get(position).getCity(),Toast.LENGTH_SHORT).show();
             }
         });
     }
