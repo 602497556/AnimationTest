@@ -30,8 +30,9 @@
         <activity android:name=".VPGalleryActivity" />
         <activity
             android:name=".CameraActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".LauncherViewActivity"></activity>
+            android:screenOrientation="portrait" />
+        <activity android:name=".LauncherViewActivity" />
+        <activity android:name=".PolygonsViewActivity"/>
     </application>
 
 </manifest>

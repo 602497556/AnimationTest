@@ -43,6 +43,8 @@ public class PolygonsView extends View {
     //字体矩形
     private Rect str_rect;
 
+    private float f1,f2,f3,f4,f5,f6,f7;
+
     public PolygonsView(Context context) {
         this(context,null);
     }
@@ -57,7 +59,7 @@ public class PolygonsView extends View {
         //初始化等级画笔
         rank_Paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         rank_Paint.setColor(Color.RED);
-        rank_Paint.setStrokeWidth(5);
+        rank_Paint.setStrokeWidth(6);
         rank_Paint.setStyle(Paint.Style.STROKE);
         //初始化字体画笔
         str_Paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -107,6 +109,13 @@ public class PolygonsView extends View {
         //中心点
         center = w / 2;
         one_radius = center - getPaddingTop() - 2 * str_rect.height();
+        f1 = one_radius-one_radius / 4 * 1;
+        f2 = one_radius-one_radius / 4 * 1;
+        f3 = one_radius-one_radius / 4 * 1;
+        f4 = one_radius-one_radius / 4 * 1;
+        f5 = one_radius-one_radius / 4 * 1;
+        f6 = one_radius-one_radius / 4 * 1;
+        f7 = one_radius-one_radius / 4 * 1;
         setMeasuredDimension(w, h);
     }
 
@@ -125,8 +134,34 @@ public class PolygonsView extends View {
         drawCenterLine(canvas);
         //绘制文字
         drawText(canvas);
+        //绘制能力值
+        drawValue(canvas);
+    }
 
-
+    /**
+     * 绘制能力值
+     *
+     * @param canvas
+     */
+    private void drawValue(Canvas canvas) {
+        Path path = new Path();
+        path.moveTo(center,getPaddingTop()+2*str_rect.height()+f1);
+        path.lineTo((float) (center + Math.sin(Math.toRadians(360 / 7))*(one_radius-f2)),
+                (float) (getPaddingTop() + 2 * str_rect.height() + one_radius -
+                        Math.abs(Math.cos(Math.toRadians(360 / 7)) * (one_radius-f2))));
+        path.lineTo((float) (center + Math.sin(Math.toRadians(360 / 7 + 360 / 7 / 2))*(one_radius-f3)),
+                (float) (Math.cos(Math.toRadians(360 / 7 + 360 / 7 / 2))*(one_radius-f3))+center);
+        path.lineTo((float) (center + Math.sin(Math.toRadians(360 / 7 / 2)) *(one_radius-f4)),
+                (float) (Math.cos(Math.toRadians(360 / 7 / 2)) *(one_radius-f4)) + center);
+        path.lineTo((float) (center - Math.sin(Math.toRadians(360 / 7 / 2)) *(one_radius-f5)),
+                (float) (Math.cos(Math.toRadians(360 / 7 / 2)) *(one_radius-f5)) + center);
+        path.lineTo((float) (center - Math.sin(Math.toRadians(360 / 7 + 360 / 7 / 2))*(one_radius-f6)),
+                (float) (Math.cos(Math.toRadians(360 / 7 + 360 / 7 / 2)) *(one_radius-f6)) + center);
+        path.lineTo((float) (center - Math.sin(Math.toRadians(360 / 7)) *(one_radius-f7)),
+                (float) (getPaddingTop() + 2 * str_rect.height() + one_radius - Math.abs(
+                        Math.cos(Math.toRadians(360 / 7)) *(one_radius-f7))));
+        path.close();
+        canvas.drawPath(path,rank_Paint);
     }
 
     /**
@@ -279,12 +314,47 @@ public class PolygonsView extends View {
         float startY = getPaddingTop() + 2 * str_rect.height();
         float endY = center;
         //此处为什么要多加0.5？
-        float degree = (float) (360 / 7 +0.5);
+        float degree = (float) (360 / 7 + 0.5);
         for(int i=0; i<7; i++){
             canvas.drawLine(center,startY,center,endY,center_Paint);
             canvas.rotate(degree,center,center);
         }
         canvas.restore();
+    }
+
+    public void setValue1(float value) {
+        f1 = one_radius-one_radius / 4 * value;
+        invalidate();
+    }
+
+    public void setValue2(float value) {
+        f2 = one_radius-one_radius / 4 * value;
+        invalidate();
+    }
+
+    public void setValue3(float value) {
+        f3 = one_radius-one_radius / 4 * value;
+        invalidate();
+    }
+
+    public void setValue4(float value) {
+        f4 = one_radius-one_radius / 4 * value;
+        invalidate();
+    }
+
+    public void setValue5(float value) {
+        f5 = one_radius-one_radius / 4 * value;
+        invalidate();
+    }
+
+    public void setValue6(float value) {
+        f6 = one_radius-one_radius / 4 * value;
+        invalidate();
+    }
+
+    public void setValue7(float value) {
+        f7 = one_radius-one_radius / 4 * value;
+        invalidate();
     }
 
 

@@ -130,4 +130,13 @@ public class MainActivity extends BaseActivity {
         myStartActivity(LauncherViewActivity.class);
     }
 
+    /**
+     * 演示PolygonsView
+     *
+     * @param view
+     */
+    public void btnPolygonsView(View view){
+        myStartActivity(PolygonsViewActivity.class);
+    }
+
 }

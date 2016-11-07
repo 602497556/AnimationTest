@@ -8,12 +8,11 @@
 
 
     <com.example.animationtest.view.PolygonsView
-        android:id="@+id/mv"
+        android:id="@+id/polygons_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="5dp"
-        android:background="#06A705"/>
+        android:padding="5dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"

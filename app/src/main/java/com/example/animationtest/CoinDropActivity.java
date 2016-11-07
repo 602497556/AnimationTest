@@ -23,8 +23,8 @@ public class CoinDropActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_polygons_view);
-        //initView();
+        setContentView(R.layout.activity_coin_drop);
+        initView();
     }
 
     private void initView() {
