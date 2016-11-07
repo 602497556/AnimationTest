@@ -7,4 +7,9 @@
     <color name="color_item_press">#ffff0000</color>
     <color name="color_item_normal">#44ff0000</color>
 
+    <color name="one">#c3e3e5</color>
+    <color name="two">#85cdd4</color>
+    <color name="three">#48afb6</color>
+    <color name="four">#22737b</color>
+
 </resources>
