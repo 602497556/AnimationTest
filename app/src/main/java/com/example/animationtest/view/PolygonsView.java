@@ -22,9 +22,7 @@ public class PolygonsView extends View {
     private int center;
     //最外层多边形半径
     private int one_radius;
-    //各多边形之间的间距
-    private int distance;
-    //等级画笔
+    //能力值画笔
     private Paint rank_Paint;
     //中心线画笔
     private Paint center_Paint;
@@ -32,7 +30,7 @@ public class PolygonsView extends View {
     private Paint one_Paint;
     //第二层多边形画笔
     private Paint two_Paint;
-    //最三层多边形画笔
+    //第三层多边形画笔
     private Paint three_Paint;
     //最四层多边形画笔
     private Paint four_Paint;
@@ -56,7 +54,7 @@ public class PolygonsView extends View {
     public PolygonsView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         defaultSize = SizeUtils.dp2px(context,300);
-        //初始化等级画笔
+        //初始化能力值画笔
         rank_Paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         rank_Paint.setColor(Color.RED);
         rank_Paint.setStrokeWidth(6);
@@ -123,13 +121,13 @@ public class PolygonsView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         //绘制最外层的多边形
-        drawFirstPolygon(canvas);
+        drawPolygon(canvas,one_Paint,0);
         //绘制第二层的多边形
-        drawSecondPolygon(canvas);
+        drawPolygon(canvas,two_Paint,one_radius/4);
         //绘制第三层的多边形
-        drawThirdPolygon(canvas);
+        drawPolygon(canvas,three_Paint,one_radius/2);
         //绘制第四层的多边形
-        drawFourthPolygon(canvas);
+        drawPolygon(canvas,four_Paint,one_radius / 2 + one_radius / 4);
         //绘制中心线
         drawCenterLine(canvas);
         //绘制文字
@@ -146,17 +144,23 @@ public class PolygonsView extends View {
     private void drawValue(Canvas canvas) {
         Path path = new Path();
         path.moveTo(center,getPaddingTop()+2*str_rect.height()+f1);
+
         path.lineTo((float) (center + Math.sin(Math.toRadians(360 / 7))*(one_radius-f2)),
                 (float) (getPaddingTop() + 2 * str_rect.height() + one_radius -
                         Math.abs(Math.cos(Math.toRadians(360 / 7)) * (one_radius-f2))));
+
         path.lineTo((float) (center + Math.sin(Math.toRadians(360 / 7 + 360 / 7 / 2))*(one_radius-f3)),
                 (float) (Math.cos(Math.toRadians(360 / 7 + 360 / 7 / 2))*(one_radius-f3))+center);
+
         path.lineTo((float) (center + Math.sin(Math.toRadians(360 / 7 / 2)) *(one_radius-f4)),
                 (float) (Math.cos(Math.toRadians(360 / 7 / 2)) *(one_radius-f4)) + center);
+
         path.lineTo((float) (center - Math.sin(Math.toRadians(360 / 7 / 2)) *(one_radius-f5)),
                 (float) (Math.cos(Math.toRadians(360 / 7 / 2)) *(one_radius-f5)) + center);
+
         path.lineTo((float) (center - Math.sin(Math.toRadians(360 / 7 + 360 / 7 / 2))*(one_radius-f6)),
                 (float) (Math.cos(Math.toRadians(360 / 7 + 360 / 7 / 2)) *(one_radius-f6)) + center);
+
         path.lineTo((float) (center - Math.sin(Math.toRadians(360 / 7)) *(one_radius-f7)),
                 (float) (getPaddingTop() + 2 * str_rect.height() + one_radius - Math.abs(
                         Math.cos(Math.toRadians(360 / 7)) *(one_radius-f7))));
@@ -170,136 +174,67 @@ public class PolygonsView extends View {
      * @param canvas
      */
     private void drawText(Canvas canvas) {
-        canvas.drawText(str[0],center - str_rect.width()/2,(float)(getPaddingTop()+ 1.5*str_rect.height()),str_Paint);
+        canvas.drawText(str[0],center - str_rect.width() / 2,
+                (float)(getPaddingTop()+ 1.5 * str_rect.height()), str_Paint);
+
         canvas.drawText(str[1],(float)(center + Math.sin(Math.toRadians(360/7)) * one_radius+str_rect.height()/2),
                 (float)(getPaddingTop()+ 2 * str_rect.height()+ one_radius -
                         Math.abs(Math.cos(Math.toRadians(360/7)) * one_radius)),str_Paint);
-        canvas.drawText(str[2],(float)(center + Math.sin(Math.toRadians(360/7 +360/7/2))*one_radius+str_rect.height()/2),
-                (float)(center + Math.cos(Math.toRadians(360/7 +360/7/2))*one_radius+str_rect.height()/2),str_Paint);
+
+        canvas.drawText(str[2],(float)(center + Math.sin(Math.toRadians(360/7 +360/7/2))*one_radius+
+                str_rect.height()/2),(float)(center + Math.cos(Math.toRadians(360/7 +360/7/2))*
+                one_radius+str_rect.height()/2),str_Paint);
+
         canvas.drawText(str[3],(float)(center + Math.sin(Math.toRadians(360/7/2))*one_radius-
                 str_rect.height()/2 +str_rect.width()/2),
                 (float) (center + Math.cos(Math.toRadians(360/7/2))*one_radius+str_rect.height()),str_Paint);
+
         canvas.drawText(str[4],(float)(center - Math.sin(Math.toRadians(360/7/2))*one_radius+
-                str_rect.height() / 2 - str_rect.width() * 1.5),(float) (center + Math.cos(Math.toRadians(360/7/2))*one_radius+
-                str_rect.height()),str_Paint);
+                str_rect.height() / 2 - str_rect.width() * 1.5),(float) (center + Math.cos(Math.toRadians(360/7/2))
+                *one_radius+str_rect.height()),str_Paint);
+
         canvas.drawText(str[5],(float)(center - Math.sin(Math.toRadians(360/7 +360/7/2))*one_radius-
-                str_rect.height()/2-str_rect.width()),
-                (float)(center + Math.cos(Math.toRadians(360/7 +360/7/2))*one_radius+str_rect.height()/2),str_Paint);
+                str_rect.height()/2-str_rect.width()),(float)(center + Math.cos(Math.toRadians(360/7 +360/7/2))
+                *one_radius+str_rect.height()/2),str_Paint);
+
         canvas.drawText(str[6],(float) (center - Math.sin(Math.toRadians(360/7)) * one_radius-str_rect.height()/2-
                 str_rect.width()),(float) (getPaddingTop()+ 2 * str_rect.height()+ one_radius -
                         Math.abs(Math.cos(Math.toRadians(360/7)) * one_radius)),str_Paint);
     }
 
     /**
-     * 绘制第四层的多边形
+     * 绘制多边形
      *
-     * @param canvas
+     * @param canvas canvas
+     * @param paint paint
+     * @param d 多边形之间的间距
      */
-    private void drawFourthPolygon(Canvas canvas) {
-        distance = one_radius / 2 + one_radius / 4;
+    private void drawPolygon(Canvas canvas,Paint paint,int d){
+        int distance = d;
         Path path = new Path();
         path.moveTo(center, getPaddingTop()+ 2 * str_rect.height()+ distance);
         //Math.sin(x)里的x是弧度而不是角度
         path.lineTo((float)(center + Math.sin(Math.toRadians(360/7))*(one_radius-distance)),
                 (float)(getPaddingTop()+ 2 * str_rect.height()+one_radius -
                         Math.abs(Math.cos(Math.toRadians(360/7))*(one_radius-distance))));
+
         path.lineTo((float)(center + Math.sin(Math.toRadians(360/7 +360/7/2))*(one_radius-distance)),
                 (float)(center + Math.cos(Math.toRadians(360/7 +360/7/2))*(one_radius-distance)) );
+
         path.lineTo((float)(center + Math.sin(Math.toRadians(360/7/2))*(one_radius-distance)),
                 (float)(center + Math.cos(Math.toRadians(360/7/2))*(one_radius-distance)));
+
         path.lineTo((float)(center - Math.sin(Math.toRadians(360/7/2))*(one_radius-distance)),
                 (float)(center + Math.cos(Math.toRadians(360/7/2))*(one_radius-distance)));
+
         path.lineTo((float)(center - Math.sin(Math.toRadians(360/7 +360/7/2))*(one_radius-distance)),
                 (float)(center + Math.cos(Math.toRadians(360/7 +360/7/2))*(one_radius-distance)) );
+
         path.lineTo((float)(center - Math.sin(Math.toRadians(360/7)) * (one_radius-distance)),
                 (float)(getPaddingTop()+ 2 * str_rect.height()+ one_radius -
                         Math.abs(Math.cos(Math.toRadians(360/7)) * (one_radius-distance))) );
         path.close();
-        canvas.drawPath(path,four_Paint);
-    }
-
-    /**
-     * 绘制第三层的多边形
-     *
-     * @param canvas
-     */
-    private void drawThirdPolygon(Canvas canvas) {
-        distance = one_radius / 2;
-        Path path = new Path();
-        path.moveTo(center, getPaddingTop()+ 2 * str_rect.height()+ distance);
-        //Math.sin(x)里的x是弧度而不是角度
-        path.lineTo((float)(center + Math.sin(Math.toRadians(360/7))*(one_radius-distance)),
-                (float)(getPaddingTop()+ 2 * str_rect.height()+one_radius -
-                        Math.abs(Math.cos(Math.toRadians(360/7))*(one_radius-distance))));
-        path.lineTo((float)(center + Math.sin(Math.toRadians(360/7 +360/7/2))*(one_radius-distance)),
-                (float)(center + Math.cos(Math.toRadians(360/7 +360/7/2))*(one_radius-distance)) );
-        path.lineTo((float)(center + Math.sin(Math.toRadians(360/7/2))*(one_radius-distance)),
-                (float)(center + Math.cos(Math.toRadians(360/7/2))*(one_radius-distance)));
-        path.lineTo((float)(center - Math.sin(Math.toRadians(360/7/2))*(one_radius-distance)),
-                (float)(center + Math.cos(Math.toRadians(360/7/2))*(one_radius-distance)));
-        path.lineTo((float)(center - Math.sin(Math.toRadians(360/7 +360/7/2))*(one_radius-distance)),
-                (float)(center + Math.cos(Math.toRadians(360/7 +360/7/2))*(one_radius-distance)) );
-        path.lineTo((float)(center - Math.sin(Math.toRadians(360/7)) * (one_radius-distance)),
-                (float)(getPaddingTop()+ 2 * str_rect.height()+ one_radius -
-                        Math.abs(Math.cos(Math.toRadians(360/7)) * (one_radius-distance))) );
-        path.close();
-        canvas.drawPath(path,three_Paint);
-    }
-
-    /**
-     * 绘制第二层的多边形
-     *
-     * @param canvas
-     */
-    private void drawSecondPolygon(Canvas canvas) {
-        distance = one_radius / 4;
-        Path path = new Path();
-        path.moveTo(center, getPaddingTop()+ 2 * str_rect.height()+ distance);
-        //Math.sin(x)里的x是弧度而不是角度
-        path.lineTo((float)(center + Math.sin(Math.toRadians(360/7))*(one_radius-distance)),
-                (float)(getPaddingTop()+ 2 * str_rect.height()+one_radius -
-                        Math.abs(Math.cos(Math.toRadians(360/7))*(one_radius-distance))));
-        path.lineTo((float)(center + Math.sin(Math.toRadians(360/7 +360/7/2))*(one_radius-distance)),
-                (float)(center + Math.cos(Math.toRadians(360/7 +360/7/2))*(one_radius-distance)) );
-        path.lineTo((float)(center + Math.sin(Math.toRadians(360/7/2))*(one_radius-distance)),
-                (float)(center + Math.cos(Math.toRadians(360/7/2))*(one_radius-distance)));
-        path.lineTo((float)(center - Math.sin(Math.toRadians(360/7/2))*(one_radius-distance)),
-                (float)(center + Math.cos(Math.toRadians(360/7/2))*(one_radius-distance)));
-        path.lineTo((float)(center - Math.sin(Math.toRadians(360/7 +360/7/2))*(one_radius-distance)),
-                (float)(center + Math.cos(Math.toRadians(360/7 +360/7/2))*(one_radius-distance)) );
-        path.lineTo((float)(center - Math.sin(Math.toRadians(360/7)) * (one_radius-distance)),
-                (float)(getPaddingTop()+ 2 * str_rect.height()+ one_radius -
-                        Math.abs(Math.cos(Math.toRadians(360/7)) * (one_radius-distance))) );
-        path.close();
-        canvas.drawPath(path,two_Paint);
-
-    }
-
-    /**
-     * 绘制最外层的多边形
-     *
-     * @param canvas
-     */
-    private void drawFirstPolygon(Canvas canvas) {
-        Path path = new Path();
-        path.moveTo(center, getPaddingTop()+ 2 * str_rect.height());
-        //Math.sin(x)里的x是弧度而不是角度
-        path.lineTo((float) (center + Math.sin(Math.toRadians(360/7)) * one_radius),
-                (float) (getPaddingTop()+ 2 * str_rect.height()+ one_radius -
-                Math.abs(Math.cos(Math.toRadians(360/7)) * one_radius)) );
-        path.lineTo((float)(center + Math.sin(Math.toRadians(360/7 +360/7/2))*one_radius),
-                (float)(center + Math.cos(Math.toRadians(360/7 +360/7/2))*one_radius) );
-        path.lineTo((float)(center + Math.sin(Math.toRadians(360/7/2))*one_radius),
-                (float) (center + Math.cos(Math.toRadians(360/7/2))*one_radius));
-        path.lineTo((float)(center - Math.sin(Math.toRadians(360/7/2))*one_radius),
-                (float) (center + Math.cos(Math.toRadians(360/7/2))*one_radius));
-        path.lineTo((float)(center - Math.sin(Math.toRadians(360/7 +360/7/2))*one_radius),
-                (float)(center + Math.cos(Math.toRadians(360/7 +360/7/2))*one_radius) );
-        path.lineTo((float) (center - Math.sin(Math.toRadians(360/7)) * one_radius),
-                (float) (getPaddingTop()+ 2 * str_rect.height()+ one_radius -
-                        Math.abs(Math.cos(Math.toRadians(360/7)) * one_radius)) );
-        path.close();
-        canvas.drawPath(path,one_Paint);
+        canvas.drawPath(path,paint);
     }
 
     /**
@@ -313,7 +248,7 @@ public class PolygonsView extends View {
         canvas.rotate(0,center,center);
         float startY = getPaddingTop() + 2 * str_rect.height();
         float endY = center;
-        //此处为什么要多加0.5？
+        //此处为什么要多加0.5 --> 多边形的角与中心线没有完全重合
         float degree = (float) (360 / 7 + 0.5);
         for(int i=0; i<7; i++){
             canvas.drawLine(center,startY,center,endY,center_Paint);
