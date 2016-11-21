@@ -32,7 +32,8 @@
             android:name=".CameraActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".LauncherViewActivity" />
-        <activity android:name=".PolygonsViewActivity"/>
+        <activity android:name=".PolygonsViewActivity" />
+        <activity android:name=".CommonActivity"></activity>
     </application>
 
 </manifest>

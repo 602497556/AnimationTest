@@ -11,6 +11,8 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.ImageView;
@@ -163,6 +165,54 @@ public class RoundImageView extends ImageView {
         drawable.setBounds(0, 0, w, h);
         drawable.draw(canvas);
         return bitmap;
+    }
+
+    private static final String STATE_INSTANCE = "state_instance";
+    private static final String STATE_TYPE = "state_type";
+    private static final String STATE_BORDOR_RADIUS = "state_border_radius";
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(STATE_INSTANCE,super.onSaveInstanceState());
+        bundle.putInt(STATE_TYPE, type);
+        bundle.putInt(STATE_BORDOR_RADIUS, mBorderRadius);
+        return bundle;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        if( state instanceof  Bundle){
+            Bundle bundle = (Bundle) state;
+            super.onRestoreInstanceState(((Bundle) state).getParcelable(STATE_INSTANCE));
+            this.type = bundle.getInt( STATE_TYPE );
+            this.mBorderRadius = bundle.getInt( STATE_BORDOR_RADIUS );
+        } else {
+            super.onRestoreInstanceState(state);
+        }
+    }
+
+    public void setBorderRadius(int borderRadius) {
+        int pxVal = dp2px( borderRadius );
+        if ( mBorderRadius != pxVal ){
+            this.mBorderRadius = pxVal;
+            invalidate();
+        }
+    }
+
+    public void setType( int type ){
+        if( this.type != type ){
+            this.type = type;
+            if (this.type != TYPE_CIRCLE && this.type != TYPE_ROUND ){
+                this.type = TYPE_CIRCLE;
+            }
+            requestLayout();
+        }
+    }
+
+    public int dp2px(int dpVal) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                dpVal, getResources().getDisplayMetrics());
     }
 
 
