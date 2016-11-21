@@ -202,6 +202,21 @@ public class PolygonsView extends View {
                         Math.abs(Math.cos(Math.toRadians(360/7)) * one_radius)),str_Paint);
     }
 
+    private void drawText2(Canvas canvas){
+        canvas.save();
+        canvas.translate(center,center);
+        float degree = (float) (360/7 + 0.5);
+        canvas.save();
+        for(int i=0; i<str.length;i++){
+            canvas.translate(-str_rect.width()/2,-(one_radius + str_rect.height()/2));
+            canvas.rotate(-i*degree);
+            canvas.drawText(str[i],0, 0,str_Paint);
+            canvas.restore();
+            canvas.rotate(degree);
+        }
+        canvas.restore();
+    }
+
     /**
      * 绘制多边形
      *
