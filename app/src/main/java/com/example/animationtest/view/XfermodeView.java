@@ -12,6 +12,7 @@ import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.ScaleAnimation;
 
 import com.example.animationtest.R;
 
@@ -39,7 +40,6 @@ public class XfermodeView extends View {
         super(context, attrs, defStyleAttr);
         init();
     }
-
 
     private void init() {
         mPaint = new Paint();
