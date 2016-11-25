@@ -45,7 +45,7 @@ public class RoundImageView extends ImageView {
     private Paint mBitmapPaint;
 
     /**
-     * 圆角半径
+     * circle半径
      */
     private int mRadius;
 
@@ -118,31 +118,36 @@ public class RoundImageView extends ImageView {
      * 初始化BitmapShader
      */
     private void setUpShader() {
+        //获得在xml中给view设置的图片
         Drawable drawable = getDrawable();
         if (drawable == null){
             return;
         }
-        Bitmap bmp = drawableToBitamp(drawable);
+        Bitmap bmp = drawableToBitmap(drawable);
         // 将bmp作为着色器，就是在指定区域内绘制bmp
-        mBitmapShader = new BitmapShader(bmp, Shader.TileMode.CLAMP,
-                Shader.TileMode.CLAMP);
+        mBitmapShader = new BitmapShader( bmp, Shader.TileMode.CLAMP,
+                Shader.TileMode.CLAMP );
         float scale = 1.0f;
-        if (type == TYPE_CIRCLE) {
+        if ( type == TYPE_CIRCLE ){
             // 拿到bitmap宽或高的小值
-            int bSize = Math.min(bmp.getWidth(), bmp.getHeight());
-            scale = mWidth * 1.0f / bSize;
+            // 写法1：
+            // int bSize = Math.min(bmp.getWidth(), bmp.getHeight());
+            // scale = mWidth * 1.0f / bSize;
+            // 写法2：
+            scale = Math.max(mWidth * 1.0f / bmp.getWidth(),
+                    mWidth * 1.0f / bmp.getHeight());
 
-        } else if (type == TYPE_ROUND) {
+        } else if( type == TYPE_ROUND ){
             // 如果图片的宽或者高与view的宽高不匹配，计算出需要缩放的比例；
             // 缩放后的图片的宽高，一定要大于我们view的宽高；所以我们这里取大值；
-            scale = Math.max(getWidth() * 1.0f / bmp.getWidth(), getHeight()
-                    * 1.0f / bmp.getHeight());
+            scale = Math.max(getWidth() * 1.0f / bmp.getWidth(),
+                    getHeight() * 1.0f / bmp.getHeight());
         }
         // shader的变换矩阵，我们这里主要用于放大或者缩小
         mMatrix.setScale(scale, scale);
         // 设置变换矩阵
         mBitmapShader.setLocalMatrix(mMatrix);
-        // 设置shader
+        // 设置shader，用一张图片创建了一支具有图像填充功能的画笔
         mBitmapPaint.setShader(mBitmapShader);
     }
 
@@ -152,7 +157,7 @@ public class RoundImageView extends ImageView {
      * @param drawable
      * @return
      */
-    private Bitmap drawableToBitamp(Drawable drawable) {
+    private Bitmap drawableToBitmap(Drawable drawable) {
 
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bd = (BitmapDrawable) drawable;
@@ -161,6 +166,7 @@ public class RoundImageView extends ImageView {
         int w = drawable.getIntrinsicWidth();
         int h = drawable.getIntrinsicHeight();
         Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        //装载画布，后面在canvas上的操作都将作用在bitmap上
         Canvas canvas = new Canvas(bitmap);
         drawable.setBounds(0, 0, w, h);
         drawable.draw(canvas);
@@ -192,6 +198,11 @@ public class RoundImageView extends ImageView {
         }
     }
 
+    /**
+     * 暴露方法用于设置圆角半径
+     *
+     * @param borderRadius
+     */
     public void setBorderRadius(int borderRadius) {
         int pxVal = dp2px( borderRadius );
         if ( mBorderRadius != pxVal ){
