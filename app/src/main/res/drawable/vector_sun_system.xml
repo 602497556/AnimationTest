@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 黏合剂：AnimatedVectorDrawable,将SVG图形与对应的动画连接起来 -->
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/earth_moon_system">
+
+    <target
+        android:animation="@anim/anim_sun"
+        android:name="sun"/>
+
+    <target
+        android:animation="@anim/anim_earth"
+        android:name="earth"/>
+
+</animated-vector>
