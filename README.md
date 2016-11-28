@@ -1,5 +1,7 @@
 # AnimationTest
 
-1，动画：灵动菜单，计时器动画，下拉展开动画
+项目主要是一些动画以及自定义的View：
 
-2,自定义View：FlikerProgressBar 
+1，动画包括：...
+   
+2,自定义View: ... 
