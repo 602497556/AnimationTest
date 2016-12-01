@@ -17,15 +17,16 @@ public class CommonActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_svg);
-        iv = (ImageView) findViewById(R.id.iv_svg);
-        iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                animate();
-            }
-        });
+        setContentView(R.layout.round_indicator_view);
+//        iv = (ImageView) findViewById(R.id.iv_svg);
+//        iv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                animate();
+//            }
+//        });
     }
+
 
     private void animate() {
         Drawable drawable = iv.getDrawable();
