@@ -1,10 +1,12 @@
 package com.example.animationtest.view;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
-import android.graphics.MaskFilter;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -29,8 +31,9 @@ public class RoundIndicatorView extends View {
 
     //定义半径为宽度的1/4
     private int radius;
-    //内外圆弧的宽度
+    //内圆弧的宽度
     private int arcInWidth;
+    //内圆弧的宽度
     private int arcOutWidth;
     //圆弧画笔
     private Paint arcPaint;
@@ -42,12 +45,13 @@ public class RoundIndicatorView extends View {
     private Paint textPaint;
 
     private int maxNum;
-    //圆盘起始角度,x正半轴开始，顺时针顺转
+
+    //圆盘起始角度( x正半轴开始，顺时针顺转 )
     private int startAngle;
     //圆盘扫过的角度
     private int sweepAngle;
 
-    private int mWidth,mHeight;
+    private int mWidth, mHeight;
 
     private int currentNum = 0;
 
@@ -77,11 +81,11 @@ public class RoundIndicatorView extends View {
      */
     private void init(Context context, AttributeSet attrs) {
         if( attrs != null ){
-            TypedArray ta = context.obtainStyledAttributes(attrs,
-                    R.styleable.RoundIndicatorView);
-            maxNum = ta.getInt(R.styleable.RoundIndicatorView_maxNum,500);
-            startAngle = ta.getInt(R.styleable.RoundIndicatorView_startAngle,160);
-            sweepAngle = ta.getInt(R.styleable.RoundIndicatorView_sweepAngle,220);
+            TypedArray ta = context.obtainStyledAttributes(
+                    attrs, R.styleable.RoundIndicatorView);
+            maxNum = ta.getInt(R.styleable.RoundIndicatorView_maxNum, 500);
+            startAngle = ta.getInt(R.styleable.RoundIndicatorView_startAngle, 160);
+            sweepAngle = ta.getInt(R.styleable.RoundIndicatorView_sweepAngle, 220);
             ta.recycle();
         }
 
@@ -92,7 +96,7 @@ public class RoundIndicatorView extends View {
         arcPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         arcPaint.setStyle(STROKE);
         arcPaint.setColor(0xffffffff);
-        arcPaint.setAlpha(0x40);//透明度范围为00~ff
+        arcPaint.setAlpha(0x40); //透明度范围为00~ff
 
         //细刻度的画笔
         degreePaint1 = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -109,6 +113,9 @@ public class RoundIndicatorView extends View {
         textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         textPaint.setColor(0xffffffff);
         textPaint.setTextSize(sp2px(8));
+
+        //设置背景
+        setBackgroundColor(0xFFFF6347);
     }
 
     @Override
@@ -137,13 +144,47 @@ public class RoundIndicatorView extends View {
         super.onDraw(canvas);
         radius = getMeasuredWidth() / 4; //不要在构造方法里初始化，那时还没测量宽高
         canvas.save();
-        canvas.translate( mWidth/2 , mHeight/2 );
+        canvas.translate( mWidth/2 , mWidth/2 );
         //画内外圆弧
         drawArc(canvas);
         //画刻度
         drawDegree(canvas);
         //画外圆弧上的进度
         drawIndicator(canvas);
+        //绘制中心文字
+        drawCenterText(canvas);
+        canvas.restore();
+    }
+
+    /**
+     * 绘制中心部分的文字
+     *
+     * @param canvas
+     */
+    private void drawCenterText(Canvas canvas) {
+        canvas.save();
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setTextSize(radius/2);
+        paint.setColor(0xffffffff);
+        //paint.setAlpha(0x90);
+        canvas.drawText(currentNum+"",
+                -paint.measureText(currentNum+"")/2, 0,paint);
+        paint.setTextSize(radius/4);
+        String str = "信用";
+        if( currentNum <= maxNum*1/5 ){
+            str += text[0];
+        } else if( currentNum > maxNum*1/5 && currentNum <= maxNum*2/5 ){
+            str += text[1];
+        } else if( currentNum > maxNum*2/5 && currentNum <= maxNum*3/5 ){
+            str += text[2];
+        } else if( currentNum > maxNum*3/5 && currentNum <= maxNum*4/5){
+            str += text[3];
+        } else if( currentNum > maxNum*4/5){
+            str += text[4];
+        }
+        Rect bounds = new Rect();
+        paint.getTextBounds(str,0,str.length(),bounds);
+        canvas.drawText(str, -bounds.width()/2, bounds.height()+20,paint);
         canvas.restore();
     }
 
@@ -248,6 +289,57 @@ public class RoundIndicatorView extends View {
         canvas.restore();
     }
 
+    //对currentNum进行属性动画，就要提供对应的get,set方法
+    public int getCurrentNum(){
+        return currentNum;
+    }
+
+    public void setCurrentNum(int cur){
+        this.currentNum = cur;
+        invalidate();
+    }
+
+    public void setCurrentNumAnim(int num){
+        if( num > maxNum ){
+            num = maxNum;
+        }
+        //根据进度差计算动画时间
+        float duration = (float) Math.abs(num - currentNum)/maxNum * 1500 +500;
+        ObjectAnimator anim = ObjectAnimator.ofInt(this, "currentNum", num);
+        anim.setDuration((long) Math.min(duration,2000));
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (int) animation.getAnimatedValue();
+                int color = calculateColor(value);
+                setBackgroundColor(color);
+            }
+        });
+        anim.start();
+    }
+
+    /**
+     * 用ArgbEvaluator估值器实现颜色渐变，调用它的evaluate方法，传入一个0~1的比例，
+     * 传入开始和结束的颜色，就可以根据当前比例得到介于这两个颜色之间的颜色值
+     *
+     * @param value
+     * @return color
+     */
+    private int calculateColor(int value) {
+        ArgbEvaluator evaluator = new ArgbEvaluator();
+        float fraction;
+        int color;
+        if( value < maxNum/2 ){
+            fraction = (float) value / (maxNum/2);
+            //由红到橙
+            color = (int) evaluator.evaluate(fraction, 0xFFFF6347, 0xFFFF8C00);
+        } else {
+            fraction = (float) (value-maxNum/2)/(maxNum/2);
+            //由橙到蓝
+            color = (int) evaluator.evaluate(fraction, 0xFFFF8C00,0xFF00CED1);
+        }
+        return color;
+    }
 
     /**
      * dp转px
