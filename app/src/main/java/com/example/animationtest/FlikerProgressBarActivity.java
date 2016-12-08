@@ -33,7 +33,7 @@ public class FlikerProgressBarActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             flikerProgressBar.setProgress(msg.arg1);
-            if(msg.arg1 == 100){
+            if( msg.arg1 == 100 ){
                 flikerProgressBar.finishLoad();
             }
         }
