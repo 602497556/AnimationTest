@@ -58,22 +58,23 @@ public class TimerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
-
         initView();
         initData();
-
-        pageCount = (int) Math.ceil(titles.length * 1.0f / pageSize);
+        pageCount = (int) Math.ceil( titles.length * 1.0f / pageSize ); //向上取整
         viewLists = new ArrayList<>();
         inflater = LayoutInflater.from(this);
         for(int i=0; i < pageCount; i++) {
-            GridView gridView = (GridView) inflater.inflate(R.layout.grid_view,mViewPager,false);
+            GridView gridView = (GridView) inflater.inflate(
+                    R.layout.grid_view, mViewPager, false);
             gridView.setAdapter(new GridViewAdapter(this, mDatas, i, pageSize));
             viewLists.add(gridView);
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
                     int pos = curPage * pageSize + position;
-                    Toast.makeText(TimerActivity.this,mDatas.get(pos).getName(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TimerActivity.this,mDatas.get(pos).getName(),
+                            Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -86,8 +87,10 @@ public class TimerActivity extends AppCompatActivity {
     private void initData() {
         mDatas = new ArrayList<>();
         for (int i=0; i<titles.length; i++){
-            //动态获取资源ID，第一个参数是资源名，第二个参数是资源类型例如drawable，string等，第三个参数包名
-            int imageId = getResources().getIdentifier("ic_category_"+i,"mipmap",getPackageName());
+            // 动态获取资源ID，第一个参数是资源名，第二个参数是资源类型
+            // 例如drawable，string等，第三个参数包名
+            int imageId = getResources().getIdentifier("ic_category_" + i, "mipmap",
+                    getPackageName());
             mDatas.add(new Model(titles[i],imageId));
         }
     }
@@ -117,16 +120,18 @@ public class TimerActivity extends AppCompatActivity {
      * 设置圆点
      */
     private void setOvalLayout() {
-        for(int i=0; i<pageCount; i++){
-            llDot.addView(inflater.inflate(R.layout.dot,null));
+        for( int i=0; i < pageCount; i++ ){
+            llDot.addView(inflater.inflate(R.layout.dot, null));
         }
         //默认显示第一页
         llDot.getChildAt(0).findViewById(R.id.view_dot).
                 setBackgroundResource(R.drawable.dot_selected);
         //给ViewPager设置监听
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset,
+                                       int positionOffsetPixels) {
 
             }
 

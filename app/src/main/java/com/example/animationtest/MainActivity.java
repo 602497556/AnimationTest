@@ -148,4 +148,13 @@ public class MainActivity extends BaseActivity {
         myStartActivity(CommonActivity.class);
     }
 
+    /**
+     * 演示广告轮播
+     *
+     * @param view
+     */
+    public void btnBannerActivity(View view){
+        myStartActivity(BannerActivity.class);
+    }
+
 }

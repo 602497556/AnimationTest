@@ -47,4 +47,10 @@
         android:text="CommonActivity"
         android:onClick="btnCommonActivity"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="循环轮播广告"
+        android:onClick="btnBannerActivity"/>
+
 </LinearLayout>

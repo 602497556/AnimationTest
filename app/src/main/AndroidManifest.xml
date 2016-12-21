@@ -33,8 +33,10 @@
             android:screenOrientation="portrait" />
         <activity android:name=".LauncherViewActivity" />
         <activity android:name=".PolygonsViewActivity" />
-        <activity android:name=".CommonActivity"
-            android:hardwareAccelerated="false"></activity>
+        <activity
+            android:name=".CommonActivity"
+            android:hardwareAccelerated="false" />
+        <activity android:name=".BannerActivity"></activity>
     </application>
 
 </manifest>
