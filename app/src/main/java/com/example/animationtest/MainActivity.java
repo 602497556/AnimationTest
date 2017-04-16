@@ -149,12 +149,12 @@ public class MainActivity extends BaseActivity {
     }
 
     /**
-     * 演示广告轮播
+     * 演示一个Chart View
      *
      * @param view
      */
-    public void btnBannerActivity(View view){
-        myStartActivity(BannerActivity.class);
+    public void btnChartViewActivity(View view){
+        myStartActivity(ChartViewActivity.class);
     }
 
 }

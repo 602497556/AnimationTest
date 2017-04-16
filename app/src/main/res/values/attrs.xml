@@ -2,7 +2,7 @@
 <resources>
     
     <declare-styleable name="FlikerProgressBar">
-        <attr name="textSize" format="dimension|reference"/>
+        <attr name="fliker_textSize" format="dimension|reference"/>
         
         <attr name="loadingColor" format="color|reference"/>
 
@@ -32,5 +32,14 @@
         <attr name="sweepAngle" format="integer"/>
     </declare-styleable>
 
+
+    <declare-styleable name="LineChartView">
+        <attr name="axesColor" format="color"/> <!--坐标轴颜色-->
+        <attr name="axesWidth" format="dimension"/> <!--坐标轴宽度-->
+        <attr name="textColor" format="color"/> <!--x轴字体颜色-->
+        <attr name="textSize" format="dimension"/> <!--字体大小-->
+        <attr name="lineColor" format="color"/> <!--折线颜色-->
+        <attr name="bgColor" format="color"/> <!--背景颜色-->
+    </declare-styleable>
 
 </resources>
